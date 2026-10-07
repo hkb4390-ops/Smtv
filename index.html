@@ -1,0 +1,290 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="utf-8">
+<script data-cfasync="false">window.SC_CONFIG={"env":"production","canonicalOrigin":"https://smartcric.is","desktopRedirect":true,"desktopRedirectUrl":"https://blog.smartcric.is","reportsEnabled":true};</script><script data-cfasync="false">
+(function () {
+    if (!window.SC_CONFIG || !SC_CONFIG.desktopRedirect) return;
+    var p = navigator.platform || '', touch = navigator.maxTouchPoints || 0;
+    var isIPad = p === 'MacIntel' && touch > 1;
+    var isDesktop = (p.indexOf('Win') !== -1 || p.indexOf('Mac') !== -1) && !isIPad;
+    if (isDesktop) window.location.href = SC_CONFIG.desktopRedirectUrl;
+})();
+</script>
+<script data-cfasync="false">
+(function () {
+    var root = document.documentElement, deferred = null;
+    var standalone = navigator.standalone === true ||
+        (window.matchMedia && matchMedia('(display-mode: standalone)').matches);
+    var isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent) ||
+        (navigator.platform === 'MacIntel' && (navigator.maxTouchPoints || 0) > 1);
+    window.scStandalone = standalone;
+    if (!standalone) root.classList.add('sc-browser');
+    if (isIOS && !standalone) root.classList.add('sc-ios');
+    window.addEventListener('beforeinstallprompt', function (e) {
+        e.preventDefault();
+        deferred = e;
+        if (!standalone) root.classList.add('sc-can-install');
+    });
+    window.addEventListener('appinstalled', function () {
+        deferred = null;
+        root.classList.remove('sc-can-install');
+        root.classList.add('sc-installed');
+        if (window.scTrack) scTrack('app_installed');
+    });
+    if (!standalone && navigator.getInstalledRelatedApps) {
+        navigator.getInstalledRelatedApps().then(function (apps) {
+            if (apps && apps.length) root.classList.add('sc-installed');
+        }).catch(function () {});
+    }
+    document.addEventListener('click', function (e) {
+        var t = e.target, el = (t && t.closest) ? t.closest('.sc-install, .sc-pill') : null;
+        if (!el) return;
+        var device = el.getAttribute('data-device') || 'android';
+        if (window.scTrack) scTrack('device_link', { device: device, prompt: !!deferred && device === 'android' });
+        if (!deferred || device !== 'android') {
+            var steps = el.classList.contains('sc-install') ? document.getElementById('sc-steps') : null;
+            if (steps) { e.preventDefault(); steps.scrollIntoView({ behavior: 'smooth' }); }
+            return;
+        }
+        e.preventDefault();
+        var ev = deferred; deferred = null;
+        root.classList.remove('sc-can-install');
+        ev.prompt();
+        ev.userChoice.then(function (r) {
+            if (window.scTrack) scTrack('install_prompt', { outcome: (r && r.outcome) || 'unknown' });
+        });
+    });
+})();
+</script>
+
+<title>Smartcric: Watch Live Cricket Free on Your Phone</title>
+<meta name="description" content="Coming up on Smartcric: India Vs West Indies, England Vs Sri Lanka, Australia Vs South Africa and Afghanistan Vs Bangladesh. Free to watch, nothing to sign up for.">
+<meta property="og:site_name" content="Smartcric">
+<link rel="canonical" href="https://smartcric.is/">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebSite","name":"Smartcric","url":"https://smartcric.is/"}
+</script>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://smartcric.b-cdn.net" crossorigin="">
+<link rel="preconnect" href="https://rest.smartcric.stream">
+<link rel="prefetch" href="https://smartcric.b-cdn.net/js/hlsjs.0.11.js?v=1790846873" as="script">
+<link rel="prefetch" href="https://smartcric.b-cdn.net/js/simplepeer_9_7_2.min.js?v=1790846873" as="script">
+<link rel="prefetch" href="https://smartcric.b-cdn.net/js/lz-string.min.js?v=1790846873" as="script">
+<link rel="prefetch" href="/resources/js/vidictPeer_server.min.js?v=1790846873" as="script">
+<link href="styles/mediaqueries.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="styles/jquery.mobile-1.4.1.min.css">
+<script src="scripts/jquery-1.10.2.min.js"></script>
+<script src="scripts/jquery.mobile-1.4.2.min.js"></script>
+
+<link rel="icon" href="pics/icon-192x192.png">
+
+<link rel="manifest" href="scripts/manifest.json">
+<meta name="theme-color" content="#4a78a9">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Smartcric">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="apple-touch-icon" sizes="180x180" href="pics/icon-192x192.png">
+<link rel="apple-touch-icon" sizes="167x167" href="pics/icon-167x167.png">
+<link rel="apple-touch-icon" sizes="152x152" href="pics/icon-152x152.png">
+<script src="scripts/ios-pwa-splash.js"></script>
+
+<meta property="og:title" content="Smartcric: Watch Live Cricket Free on Your Phone">
+<meta property="og:description" content="Coming up on Smartcric: India Vs West Indies, England Vs Sri Lanka, Australia Vs South Africa and Afghanistan Vs Bangladesh. Free to watch, nothing to sign up for.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="pics/social.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Smartcric: live cricket, free, on your phone">
+<meta name="twitter:image" content="pics/social.jpg">
+<meta property="og:url" content="https://smartcric.is/">
+<meta name="twitter:card" content="summary_large_image">
+
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-E6L19XJ7L4"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('consent', 'default', {
+    'ad_storage': 'denied',
+    'ad_user_data': 'denied',
+    'ad_personalization': 'denied',
+    'analytics_storage': 'denied',
+    'wait_for_update': 500,
+    'region': ['AT','BE','BG','HR','CY','CZ','DK','EE','FI','FR','DE','GR','HU','IE','IS','IT','LV','LI','LT','LU','MT','NL','NO','PL','PT','RO','SK','SI','ES','SE','GB','CH']
+  });
+  gtag('js', new Date());
+
+  gtag('config', 'G-E6L19XJ7L4');
+  window.scTrack = function (name, params) {
+    try { gtag('event', name, params || {}); } catch (e) {}
+  };
+</script>
+
+<script async="" src="scripts/adsbygoogle.js"></script>
+ </head>
+
+<body>
+
+<div class="wrapper" data-role="page" id="pageone">
+<div class="header">
+<a href="/" data-ajax="false"><img src="pics/logo.png" alt="Smartcric"></a>
+</div>
+<div class="add1">
+<center>
+
+<ins class="sc-ad" style="display:block" data-ad-client="ca-pub-8400052437609010" data-ad-slot="5646114312" data-ad-format="auto" data-full-width-responsive="true"></ins>
+
+</center>
+</div>
+<div class="mca" id="channels">
+<h1>Please select match to play</h1>
+<div class="sc-intro">Free live cricket streaming for your phone: internationals, IPL, PSL and T20 leagues. Tap a match to watch.</div>
+<div class="mca_box2"><a data-transition="fade" href="#" onclick="return showOfflineCard(0)" class="ui-btn2 ui-shadow ui-corner-all">India Vs West Indies</a><div class="clear"></div></div>
+<div class="mca_box2"><a data-transition="fade" href="#" onclick="return showOfflineCard(1)" class="ui-btn2 ui-shadow ui-corner-all">England Vs Sri Lanka</a><div class="clear"></div></div>
+<div class="mca_box2"><a data-transition="fade" href="#" onclick="return showOfflineCard(2)" class="ui-btn2 ui-shadow ui-corner-all">Australia Vs South Africa</a><div class="clear"></div></div>
+<div class="mca_box2"><a data-transition="fade" href="#" onclick="return showOfflineCard(3)" class="ui-btn2 ui-shadow ui-corner-all">Afghanistan Vs Bangladesh</a><div class="clear"></div></div>
+<div class="mca_box2"><a data-transition="fade" href="#" onclick="return showOfflineCard(4)" class="ui-btn2 ui-shadow ui-corner-all">Women's Big Bash, 2026</a><div class="clear"></div></div>
+<div class="mca_box2"><a data-transition="fade" href="#" onclick="return showOfflineCard(5)" class="ui-btn2 ui-shadow ui-corner-all">Asian Games, 2026</a><div class="clear"></div></div>
+</div>
+
+<div class="sc-devices">
+<div class="sc-devices-installed">Smartcric is installed on this phone. Open it from your home screen.</div>
+<div class="sc-devices-open">
+<div class="sc-devices-title">Get the Smartcric app</div>
+<div class="sc-devices-lead">You are watching in a browser. Install the app for this device: full screen, no browser bars, one tap to a match.</div>
+<div class="sc-devices-row">
+<a class="sc-pill" data-device="android" href="/install-android.php" data-ajax="false">Android app</a>
+<a class="sc-pill" data-device="iphone" href="/install-iphone.php" data-ajax="false">iPhone &amp; iPad app</a>
+<a class="sc-pill" data-device="tv" href="/install-tv.php" data-ajax="false">Android TV app</a>
+</div>
+</div>
+</div>
+
+<div class="footer">
+<p class="footlinks"><a href="/privacy.php" data-ajax="false">Privacy</a><a href="/terms.php" data-ajax="false">Terms</a><a href="/contact.php" data-ajax="false">Contact</a><a href="/privacy.php" data-ajax="false" onclick="if(window.googlefc&amp;&amp;googlefc.showRevocationMessage){googlefc.showRevocationMessage();return false;}">Consent settings</a></p>
+<p class="copy">© Smartcric.is</p>
+</div>
+<div class="clear"></div>
+</div>
+
+<div class="wrapper" data-role="page" id="quality">
+<div class="header">
+<a href="/" data-ajax="false"><img src="pics/logo.png" alt="Smartcric"></a>
+</div>
+<div class="add1">
+<center>
+
+<ins class="sc-ad" style="display:block" data-ad-client="ca-pub-8400052437609010" data-ad-slot="5646114312" data-ad-format="auto" data-full-width-responsive="true"></ins>
+
+</center>
+</div>
+<div class="mca" id="streams">
+</div>
+
+<div class="sc-devices">
+<div class="sc-devices-installed">Smartcric is installed on this phone. Open it from your home screen.</div>
+<div class="sc-devices-open">
+<div class="sc-devices-title">Get the Smartcric app</div>
+<div class="sc-devices-lead">You are watching in a browser. Install the app for this device: full screen, no browser bars, one tap to a match.</div>
+<div class="sc-devices-row">
+<a class="sc-pill" data-device="android" href="/install-android.php" data-ajax="false">Android app</a>
+<a class="sc-pill" data-device="iphone" href="/install-iphone.php" data-ajax="false">iPhone &amp; iPad app</a>
+<a class="sc-pill" data-device="tv" href="/install-tv.php" data-ajax="false">Android TV app</a>
+</div>
+</div>
+</div>
+
+<div class="footer">
+<p class="footlinks"><a href="/privacy.php" data-ajax="false">Privacy</a><a href="/terms.php" data-ajax="false">Terms</a><a href="/contact.php" data-ajax="false">Contact</a><a href="/privacy.php" data-ajax="false" onclick="if(window.googlefc&amp;&amp;googlefc.showRevocationMessage){googlefc.showRevocationMessage();return false;}">Consent settings</a></p>
+<p class="copy">© Smartcric.is</p>
+</div>
+<div class="clear"></div>
+</div>
+
+<div class="wrapper" data-role="page" id="video">
+<div class="header">
+<a href="/" data-ajax="false"><img src="pics/logo.png" alt="Smartcric"></a>
+</div>
+<div class="add1">
+<center>
+
+<ins class="sc-ad" style="display:block" data-ad-client="ca-pub-8400052437609010" data-ad-slot="5646114312" data-ad-format="auto" data-full-width-responsive="true"></ins>
+
+</center>
+</div>
+<div class="mca" id="videoDiv">
+</div>
+
+<div class="sc-devices">
+<div class="sc-devices-installed">Smartcric is installed on this phone. Open it from your home screen.</div>
+<div class="sc-devices-open">
+<div class="sc-devices-title">Get the Smartcric app</div>
+<div class="sc-devices-lead">You are watching in a browser. Install the app for this device: full screen, no browser bars, one tap to a match.</div>
+<div class="sc-devices-row">
+<a class="sc-pill" data-device="android" href="/install-android.php" data-ajax="false">Android app</a>
+<a class="sc-pill" data-device="iphone" href="/install-iphone.php" data-ajax="false">iPhone &amp; iPad app</a>
+<a class="sc-pill" data-device="tv" href="/install-tv.php" data-ajax="false">Android TV app</a>
+</div>
+</div>
+</div>
+
+<div class="footer">
+<p class="footlinks"><a href="/privacy.php" data-ajax="false">Privacy</a><a href="/terms.php" data-ajax="false">Terms</a><a href="/contact.php" data-ajax="false">Contact</a><a href="/privacy.php" data-ajax="false" onclick="if(window.googlefc&amp;&amp;googlefc.showRevocationMessage){googlefc.showRevocationMessage();return false;}">Consent settings</a></p>
+<p class="copy">© Smartcric.is</p>
+</div>
+<div class="clear"></div>
+</div>
+
+<script src="scripts/customlb_vidictPeer.js"></script>
+<script>
+var sn = "8cdR-LEJ8-U3FP-X6bc-6a3gc";
+var SC_CHANNELS = {"channelsList":[{"active":0,"caption":"India Vs West Indies","channelId":1,"channelName":"No live match at the moment","fmsUrl":"51.scjustfor.info","status":"1"},{"active":0,"caption":"England Vs Sri Lanka","channelId":2,"channelName":"No live match at the moment","fmsUrl":"51.scjustfor.info","status":"1"},{"active":0,"caption":"Australia Vs South Africa","channelId":3,"channelName":"No live match at the moment","fmsUrl":"51.scjustfor.info","status":"1"},{"active":0,"caption":"Afghanistan Vs Bangladesh","channelId":4,"channelName":"No live match at the moment","fmsUrl":"51.scjustfor.info","status":"1"},{"active":0,"caption":"Women's Big Bash, 2026","channelId":5,"channelName":"No live match at the moment","fmsUrl":"51.scjustfor.info","status":"1"},{"active":0,"caption":"Asian Games, 2026","channelId":6,"channelName":"No live match at the moment","fmsUrl":"51.scjustfor.info","status":"1"}],"stop":[{"link":"smartcric.is","linkText":"Click Here to Watch","mainText":"Smartcric app is currently unavailable. Meanwhile, Please click below or watch on Smartcric.is\n\n","status":"true","version":"2"},{"link":"https://play.google.com/store/apps/details?id=com.maksolution.mobile.playstore.smartcrichttps://play","linkText":"Click Here to Download","mainText":"Download new version of Smartcric from Play Store. Thank you","status":"true","version":"2"}]};
+var SC_LIBS = {
+	hls: "https://smartcric.b-cdn.net/js/hlsjs.0.11.js?v=1790846873",
+	peer: "https://smartcric.b-cdn.net/js/simplepeer_9_7_2.min.js?v=1790846873",
+	lz: "https://smartcric.b-cdn.net/js/lz-string.min.js?v=1790846873",
+	loader: "/resources/js/vidictPeer_server.min.js?v=1790846873"
+};
+if (window.location.href !== SC_CONFIG.canonicalOrigin + '/') {
+	window.location.replace(SC_CONFIG.canonicalOrigin + '/');
+} else {
+	showChannels("0404bdcd5a3da3b258c63b6a1d616215ff329f0edcd74b365e294700945096aea1bac2f9780d74cb941286e36aa426cfda5070cccc492408fe6c7c26c8fc2fc9e", 1791399600, "f1de65570b64ebf6");
+	if (window.iosPWASplash) iosPWASplash('/resources/images/icons/splash-logo.png', '#759fc9');
+}
+</script>
+
+<script>
+(function () {
+	function pushAdsIn(page) {
+		var units = page.querySelectorAll('ins.sc-ad');
+		for (var i = 0; i < units.length; i++) {
+			units[i].className = 'adsbygoogle';
+			try { (window.adsbygoogle = window.adsbygoogle || []).push({}); } catch (e) {}
+		}
+	}
+	if (!window.jQuery) return;
+	jQuery(document).on('pageshow', '[data-role=page]', function () { pushAdsIn(this); });
+	jQuery(function () {
+		var active = document.querySelector('.ui-page-active');
+		if (active) pushAdsIn(active);
+	});
+})();
+</script>
+<script>
+(function () {
+	var reported = 0;
+	window.addEventListener('error', function (e) {
+		if (reported++ >= 5 || !window.scTrack) return;
+		scTrack('js_error', { message: String(e.message || '').slice(0, 100), source: String(e.filename || '').split('/').pop().slice(0, 60), line: e.lineno || 0 });
+	});
+	window.addEventListener('unhandledrejection', function (e) {
+		if (reported++ >= 5 || !window.scTrack) return;
+		var r = e.reason;
+		scTrack('js_error', { message: String((r && r.message) || r || '').slice(0, 100), source: 'promise' });
+	});
+})();
+</script>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495" data-cf-beacon="{&quot;version&quot;:&quot;2024.11.0&quot;,&quot;token&quot;:&quot;16a20d96a93c49449931d24fc663e214&quot;,&quot;r&quot;:1,&quot;spa&quot;:2}"></script>
+
+
+</body></html>
